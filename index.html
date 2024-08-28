@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juliett Project</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="styles/style.css">
+</head>
+
+<body>
+     <!-- header + repo link -->
+  <header>
+    <h1>NATO / Civilian Phonetic Generator</h1>
+  </header>
+   <!-- main + text entry + button gen. -->
+  <main>
+    <div class="container">
+      <label for="inputText">Enter Name:</label>
+      <textarea id="inputText" rows="4"></textarea>
+      <button id="generateBtn" class="btn btn-primary mt-3">Generate</button>
+      <button id="clearBtn" class="btn btn-secondary mt-3">Clear</button>
+      <div id="output" class="mt-3"></div>
+    </div>
+        <!-- info card -->
+        <div class="container mt-5">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Phonetic Alphabet Information</h5>
+                <p>Both phonetic alphabets are used for clarity when communicating in various situations.</p>
+                <br>
+                <p><strong>NATO:</strong> the alphabet often used in military communication.</p>
+                <br>
+                <p><strong>Civilian:</strong> the alphabet most commonly used as a replacement for NATO.</p>
+
+              </div>
+            </div>
+          </div>
+  </main>
+  <footer>
+   <a href="https://github.com/JohnAllenB/jab-juliett-project" target="_blank">Repo</a>
+    <a href="https://validator.w3.org/nu/?doc=https%3A%2F%2Fjohnallenb.github.io%2Fjab-juliett-project%2F" target="_blank">Validate</a>
+  </footer>
+   <!-- script source -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="scripts/script.js"></script>
+</body>
+</html>
