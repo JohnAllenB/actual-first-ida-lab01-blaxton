@@ -1,0 +1,36 @@
+body {
+ background-color: lightgrey;
+  }
+  
+  header{
+    background-color: gray;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  main {
+    padding: 20px;
+  }
+  
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  textarea {
+    width: 100%;
+  }
+  
+  #output {
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+
+  footer{
+    text-align: center;
+    background-color: gray;
+    padding: 50px;
+    font-size: large;
+  }
+  
+  
