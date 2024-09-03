@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = process.env.uri;
+const uri = process.env.URI;
 
 
 //mongo code
