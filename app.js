@@ -1,9 +1,10 @@
+require('dotenv').config()
 const express = require('express');
 const path = require('path');
 const app = express();
+app.set('view engine', 'ejs')
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = process.env.URI;
-
+const uri = process.env.MONGO_URI;
 
 //mongo code
 
@@ -29,6 +30,19 @@ async function run() {
   }
 }
 run().catch(console.dir);
+
+app.get('/mongo', async (req,res)=>{
+  await client.connect();
+  let result = await client.db("jab-db").collection("dev-john(allen)")
+   .find({}).toArray();
+  console.log(result);
+
+  res.render('index', {
+    mongoResult : result
+  });
+
+})
+
 
 
 app.use(express.static(('./')));
