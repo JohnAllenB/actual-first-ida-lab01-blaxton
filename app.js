@@ -99,7 +99,7 @@ app.post('/delete/:id', async (req,res)=>{
   console.log("req.parms.id: ", req.params.id)
 
   client.connect; 
-  const collection = client.db("jab-db").collection("dev-john(allen");
+  const collection = client.db("jab-db").collection("dev-john(allen)");
   let result = await collection.findOneAndDelete( 
   {"_id": new ObjectId(req.params.id)})
 
