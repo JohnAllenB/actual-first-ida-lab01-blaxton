@@ -85,7 +85,7 @@ app.post('/update/:id', async (req,res)=>{
   client.connect; 
   const collection = client.db("jab-db").collection("dev-john(allen)");
   let result = await collection.findOneAndUpdate( 
-  {"_id": new ObjectId(req.params.id)}, { $set: {"post": "CUMBIE IS THE GOAT!!!!" } }
+  {"_id": new ObjectId(req.params.id)}, { $set: {"post": "Roll Tide" } }
 )
 .then(result => {
   console.log(result); 
@@ -108,7 +108,7 @@ app.post('/delete/:id', async (req,res)=>{
   res.redirect('/read');
 })
 
-//port 3000
+//port 5500
 
 })
 app.listen(5500)
