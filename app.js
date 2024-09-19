@@ -9,7 +9,7 @@ const uri = process.env.MONGO_URI;
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.set('view engine', 'ejs')
-app.use(express.static('./public/'))
+app.use(express.static('./'))
 
 console.log(uri);
 
