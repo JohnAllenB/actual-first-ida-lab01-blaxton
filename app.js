@@ -12,9 +12,10 @@ app.set('view engine', 'ejs')
 app.use(express.static('./public/'))
 
 console.log(uri);
-console.log('Server is running with MongoDB connection');
 
-//client
+console.log('Server connected');
+
+//create MongoClient
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -25,73 +26,89 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
+    
     await client.connect();
+    
     await client.db("admin").command({ ping: 1 });
-    console.log("Successfully connected to MongoDB!");
+    console.log("Pinged your deployment. You have been connected to MongoDB");
   } finally {
+    
     await client.close();
   }
 }
 run().catch(console.dir);
 
-//get index
-app.get('/', (req, res) => {
+
+app.get('/', function (req, res) {
   res.sendFile('index.html');
 })
 
-// Serve EJS
-app.get('/ejs', (req, res) => {
+app.get('/ejs', (req,res)=>{
+``
   res.render('index', {
-    myServerVariable: "something from server"
+    myServerVariable : "something from server"
   });
 })
 
-// read data
-app.get('/read', async (req, res) => {
+app.get('/read', async (req,res)=>{
+
+  console.log('in /mongo');
   await client.connect();
-  let result = await client.db("jab-db").collection("dev-john(allen)").find({}).toArray();
-  console.log(result);
   
+  console.log('connected?');
+  //ping to confirm 
+  
+  let result = await client.db("jab-db").collection("dev-john(allen)")
+    .find({}).toArray(); 
+  console.log(result); 
+
   res.render('mongo', {
-    postData: result
+    postData : result
   });
+
 })
 
-// hardcode mongodb
-app.get('/insert', async (req, res) => {
+app.get('/insert', async (req,res)=> {
+
+  console.log('in /insert');
   await client.connect();
-  await client.db("jab-db").collection("dev-john(allen)").insertOne({ post: 'hardcoded post insert' });
-  await client.db("jab-db").collection("dev-john(allen)").insertOne({ iJustMadeThisUp: 'hardcoded new key' });
-  
+  await client.db("jab-db").collection("dev-john(allen)").insertOne({ post: 'hardcoded post insert '});
+  await client.db("jab-db").collection("dev-john(allen)").insertOne({ iJustMadeThisUp: 'hardcoded new key '});  
   res.render('insert');
-})
 
-// Update mongodb
-app.post('/update/:id', async (req, res) => {
-  await client.connect();
+}); 
+
+app.post('/update/:id', async (req,res)=>{
+
+  console.log("req.parms.id: ", req.params.id)
+
+  client.connect; 
   const collection = client.db("jab-db").collection("dev-john(allen)");
-  let result = await collection.findOneAndUpdate(
-    { "_id": new ObjectId(req.params.id) },
-    { $set: { "post": "NEW POST" } }
-  );
-  
-  console.log(result);
+  let result = await collection.findOneAndUpdate( 
+  {"_id": new ObjectId(req.params.id)}, { $set: {"post": "CUMBIE IS THE GOAT!!!!" } }
+)
+.then(result => {
+  console.log(result); 
   res.redirect('/read');
 })
 
-// Delete on mongodb
-app.post('/delete/:id', async (req, res) => {
-  await client.connect();
-  const collection = client.db("jab-db").collection("dev-john(allen)");
-  let result = await collection.findOneAndDelete(
-    { "_id": new ObjectId(req.params.id) }
-  );
-  
-  console.log(result);
-  res.redirect('/read');
-})
-
-// server
-app.listen(5500, () => {
-  console.log('Server is on port 5500');
 });
+
+app.post('/delete/:id', async (req,res)=>{
+
+  console.log("req.parms.id: ", req.params.id)
+
+  client.connect; 
+  const collection = client.db("jab-db").collection("dev-john(allen");
+  let result = await collection.findOneAndDelete( 
+  {"_id": new ObjectId(req.params.id)})
+
+.then(result => {
+  console.log(result); 
+  res.redirect('/read');
+})
+
+//port 3000
+
+})
+app.listen(5500)
