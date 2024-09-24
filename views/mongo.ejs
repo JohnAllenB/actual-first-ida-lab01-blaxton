@@ -1,12 +1,14 @@
-<!-- read from my mongo -->
-<h1>see my mongoDB results</h1>
+<h1>Bama beats Georgia 35-17 on Sept. 28th</h1>
 
 
-<h3> my blog posts</h3> 
+<h3>Roll Tide</h3> 
  <% for (var i=0; i< postData.length; i++ ) { %>
   <form method="POST" action="/update/<%= postData[i]._id %>" style="display: inline-block">  
     <%= postData[i].post %> 
     <input type="submit" value="update"> 
+  </form>
+  <form method="POST" action="/delete/<%= postData[i]._id %>" style="display: inline-block">  
+    <input type="submit" value="delete"> 
   </form>
   <br/>
 <% } %>

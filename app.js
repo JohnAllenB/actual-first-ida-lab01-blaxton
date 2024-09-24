@@ -1,14 +1,21 @@
 require('dotenv').config()
-const express = require('express');
-const path = require('path');
-const app = express();
-app.set('view engine', 'ejs')
+const express = require('express')
+const app = express()
+const bodyParser = require('body-parser')
+const { urlencoded } = require('body-parser')
+const { ObjectId } = require('mongodb')
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = process.env.MONGO_URI;
 
-//mongo code
+app.use(bodyParser.urlencoded({ extended: true }))
+app.set('view engine', 'ejs')
+app.use(express.static('./'))
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+console.log(uri);
+
+console.log('Server connected');
+
+//create MongoClient
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -19,36 +26,89 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    // Connect the client to the server	(optional starting in v4.7)
+    
     await client.connect();
-    // Send a ping to confirm a successful connection
+    
     await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+    console.log("Pinged your deployment. You have been connected to MongoDB");
   } finally {
-    // Ensures that the client will close when you finish/error
+    
     await client.close();
   }
 }
 run().catch(console.dir);
 
-app.get('/mongo', async (req,res)=>{
-  await client.connect();
-  let result = await client.db("jab-db").collection("dev-john(allen)")
-   .find({}).toArray();
-  console.log(result);
 
+app.get('/', function (req, res) {
+  res.sendFile('index.html');
+})
+
+app.get('/ejs', (req,res)=>{
+``
   res.render('index', {
-    mongoResult : result
+    myServerVariable : "something from server"
+  });
+})
+
+app.get('/read', async (req,res)=>{
+
+  console.log('in /mongo');
+  await client.connect();
+  
+  console.log('connected?');
+  //ping to confirm 
+  
+  let result = await client.db("jab-db").collection("dev-john(allen)")
+    .find({}).toArray(); 
+  console.log(result); 
+
+  res.render('mongo', {
+    postData : result
   });
 
 })
 
+app.get('/insert', async (req,res)=> {
 
+  console.log('in /insert');
+  await client.connect();
+  await client.db("jab-db").collection("dev-john(allen)").insertOne({ post: 'hardcoded post insert '});
+  await client.db("jab-db").collection("dev-john(allen)").insertOne({ iJustMadeThisUp: 'hardcoded new key '});  
+  res.render('insert');
 
-app.use(express.static(('./')));
+}); 
 
+app.post('/update/:id', async (req,res)=>{
 
-app.listen(3000, () => {
-  
+  console.log("req.parms.id: ", req.params.id)
+
+  client.connect; 
+  const collection = client.db("jab-db").collection("dev-john(allen)");
+  let result = await collection.findOneAndUpdate( 
+  {"_id": new ObjectId(req.params.id)}, { $set: {"post": "Roll Tide" } }
+)
+.then(result => {
+  console.log(result); 
+  res.redirect('/read');
+})
+
 });
 
+app.post('/delete/:id', async (req,res)=>{
+
+  console.log("req.parms.id: ", req.params.id)
+
+  client.connect; 
+  const collection = client.db("jab-db").collection("dev-john(allen)");
+  let result = await collection.findOneAndDelete( 
+  {"_id": new ObjectId(req.params.id)})
+
+.then(result => {
+  console.log(result); 
+  res.redirect('/read');
+})
+
+//port 5500
+
+})
+app.listen(5500)
