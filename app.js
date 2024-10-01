@@ -24,19 +24,6 @@ const client = new MongoClient(uri, {
   }
 });
 
-async function run() {
-  try {
-    
-    await client.connect();
-    
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You have been connected to MongoDB");
-  } finally {
-    
-    await client.close();
-  }
-}
-run().catch(console.dir);
 
 
 app.get('/', function (req, res) {
@@ -52,7 +39,7 @@ app.get('/ejs', (req,res)=>{
 
 app.get('/read', async (req,res)=>{
 
-  console.log('in /mongo');
+  console.log('in /read');
   await client.connect();
   
   console.log('connected?');
@@ -62,7 +49,7 @@ app.get('/read', async (req,res)=>{
     .find({}).toArray(); 
   console.log(result); 
 
-  res.render('mongo', {
+  res.render('read', {
     postData : result
   });
 
