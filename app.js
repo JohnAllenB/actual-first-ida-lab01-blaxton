@@ -95,9 +95,6 @@ app.post('/delete/:id', async (req, res) => {
       console.log(result);
       res.redirect('/read');
     })
-
-  //port 5500
-
 })
 
 app.listen(PORT, () => {
